@@ -26,17 +26,17 @@
 					<tr>
 						<td class="PalignL">아이디</td>
 						<td class="PalignL">
-                            <input type="text" id="inp_id"  v-model="userInfo.username" class="regi" placeholder="abc@abc.com" > 
+                            <input type="text" id="inp_id"  v-model="username" class="regi" placeholder="abc@abc.com" > 
                          </td> 
 					</tr>
                     <tr>
 						<td class="PalignL"> 비밀번호 </td>
 						<td class="PalignL">
-                            <input type="password" id="inp_pw" v-model="userInfo.password" class="pw" >
+                            <input type="password" id="inp_pw" v-model="password" class="pw" >
                         </td>
 					</tr>
                     <tr>
-                        <td>  <button @click="doLogin()">로그인</button>  </td>
+                        <td>  <button @click="doLogin">로그인</button>  </td>
                     </tr>
 					</tbody>
 				</table>
@@ -46,36 +46,30 @@
 	</div><!-- //contentWrap -->
 </template>
 <script>
+import {mapActions} from 'vuex'
 
+const userStore = 'userStore';
 
 export default {
-    data() {
-		return {
-			userInfo :{
+	name : "LoginPage",
+	data(){
+		return{
 				username : '',
 				password : ''
-			}
-
-			
 		}
 	},
-	methods: {
-        // 일단 나오는지 확인
-			doLogin(){
-				this.$actions.dispatch('login',{
-					userInfo : this.userInfo
-				})
+
+	methods :{
+		...mapActions(userStore, ['login']),
+		doLogin() {
+			const userInfo = {
+				username : this.username,
+				password : this.password
 			}
-
-
-
-
-
-			
-
-			}		
-            
-
+			this.login(userInfo)
+		}
+	}
+    
 }
 
 

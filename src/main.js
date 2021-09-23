@@ -3,9 +3,7 @@ import {
 } from 'vue';
 import App from './App.vue';
 import router from './router';
-import state from './store/modules/user.js';
-import mutations from './store/modules/user.js';
-import actions from './store/modules/user.js';
+import { store } from './store/index'
 
 //공통 모달
 import VueFinalModal from 'vue-final-modal';
@@ -41,11 +39,9 @@ app.config.globalProperties.$filters = {
   },
 };
 
-app.use(state);
-app.use(mutations);
-app.use(actions);
-app.use(router);
 
+app.use(router);
+app.use(store)
 app.use(VueFinalModal());
 
 app.component('pagination', Pagination);

@@ -1,6 +1,8 @@
+
 import { login, logout, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
+
 
 const getDefaultState = () => {
   return {
@@ -30,10 +32,20 @@ const mutations = {
   }
 }
 
+/**
+ * Promise의 목적
+ * 기존 javascript에서 비동기 처리를 순차적으로 처리할 때
+ * 콜백(Call back) 형식으로 처리하면서 예외 처리가 어렵다는 단점이 있었다.
+ * 이 부분을 보완하기 위해서 promise 를 사용
+ * 비동거 처리를 성공했을 때는 resolve를, 실패 했을 때는
+ * reject를 실행하도록 해서 사용
+ */
+
 const actions = {
   // user login
   login({ commit }, userInfo) {
-    const { username, password } = userInfo
+    const { username, password } = userInfo;
+    console.log({username, password})
     return new Promise((resolve, reject) => {
       login({ userId: username.trim(), userPass: password }).then(response => {
         
