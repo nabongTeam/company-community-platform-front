@@ -4,7 +4,7 @@ import axios from 'axios';
 //object형태로 옴
 export function login(params){
     return axios({
-        url: '/api/user/Login/do',
+        url: 'http://localhost:8888/api/Login/do',
         method : 'post',
         data : params
     });
