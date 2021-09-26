@@ -19,7 +19,7 @@ const mutations = {
   RESET_STATE: (state) => {
     Object.assign(state, getDefaultState())
   },
-  //토큰 얻어오기
+  //토큰 저장하기
   SET_TOKEN: (state, token) => {
     state.token = token
   },
@@ -45,24 +45,30 @@ const actions = {
   // user login
   login({ commit }, userInfo) {
     const { username, password } = userInfo;
-    console.log({username, password})
     return new Promise((resolve, reject) => {
-      login({ userId: username.trim(), userPass: password }).then(response => {
+      login({ userNm: username.trim(), password: password }).then(response => {
         
         
         console.log("user login")
         console.log(response)
 
         //const { data } = response.data
-        console.log("data.token =======>" + response.data.token)
-        console.log("data.user =======>" + JSON.stringify(response.data.user))
+        //console.log("data.token =======>" + response.data.token)
+        //console.log("config.data =======>" + response.config.data)
 
         commit('SET_TOKEN', response.data.token)
         setToken(response.data.token)
 
         //commit('SET_TOKEN', data.token)
         //setToken(data.token)
-        resolve()
+
+        if(state.token != undefined){
+          resolve()
+        }
+        else{
+          alert("아이디 혹은 비밀번호가 틀립니다.")
+        }
+
       }).catch(error => {
         reject(error)
       })
@@ -72,17 +78,28 @@ const actions = {
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
+      
       getInfo(state.token).then(response => {
-        const { data } = response
-
+        const data = {
+          name : response.data.name,
+          avatar :{
+            authority : response.data.principal.authorities[0].authority,
+            accountNonExpired : response.data.principal.accountNonExpired,
+            accountNonLocked : response.data.principal.accountNonLocked,
+            credentialsNonExpired : response.data.principal.credentialsNonExpired,
+            enabled : response.data.principal.enabled
+          }
+          
+        }
         if (!data) {
           return reject('Verification failed, please Login again.')
         }
-
+        
         const { name, avatar } = data
-
+        
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
+        console.log(data)
         resolve(data)
       }).catch(error => {
         reject(error)

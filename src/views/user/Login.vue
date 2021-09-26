@@ -37,6 +37,7 @@
 					</tr>
                     <tr>
                         <td>  <button @click="doLogin">로그인</button>  </td>
+                        <td>  <button @click="getUserInfo">유저 정보 얻기</button>  </td>
                     </tr>
 					</tbody>
 				</table>
@@ -60,13 +61,16 @@ export default {
 	},
 
 	methods :{
-		...mapActions(userStore, ['login']),
+		...mapActions(userStore, ['login', 'getInfo']),
 		doLogin() {
 			const userInfo = {
 				username : this.username,
 				password : this.password
 			}
 			this.login(userInfo)
+		},
+		getUserInfo(){
+			this.getInfo();
 		}
 	}
     
