@@ -1,9 +1,12 @@
-import {
-  createApp
-} from 'vue';
+import {createApp} from 'vue';
+
 import App from './App.vue';
 import router from './router';
 import { store } from './store/index'
+
+//Vue Cookie
+import {VueCookieNext} from 'vue-cookie-next'
+
 
 //공통 모달
 import VueFinalModal from 'vue-final-modal';
@@ -39,10 +42,13 @@ app.config.globalProperties.$filters = {
   },
 };
 
+app.config.globalProperties.$cookies;
 
 app.use(router);
 app.use(store)
 app.use(VueFinalModal());
+app.use(VueCookieNext)
+
 
 app.component('pagination', Pagination);
 app.component('comm-row-count', CommRowCount);
@@ -51,9 +57,7 @@ app.component('comm-tag-lib', CommTagLib);
 app.component('comm-file', CommFile);
 app.component('comm-multi-file', CommMultiFile);
 app.component('editor', Tiptap)
-
 app.component('comm-file-download', CommFileDownload);
-
 app.component('comm-code-tag-lib', CommCodeTagLib);
 
 

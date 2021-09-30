@@ -1,6 +1,6 @@
 
 import { login, logout, getInfo } from '@/api/user'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import {getToken, setToken, removeToken} from '@/utils/token'
 import { resetRouter } from '@/router'
 
 
@@ -59,8 +59,6 @@ const actions = {
         commit('SET_TOKEN', response.data.token)
         setToken(response.data.token)
 
-        //commit('SET_TOKEN', data.token)
-        //setToken(data.token)
 
         if(state.token != undefined){
           resolve()
@@ -74,6 +72,7 @@ const actions = {
       })
     })
   },
+
 
   // get user info
   getInfo({ commit, state }) {
