@@ -47,7 +47,14 @@ app.config.globalProperties.$cookies;
 app.use(router);
 app.use(store)
 app.use(VueFinalModal());
-app.use(VueCookieNext)
+app.use(VueCookieNext,{
+  expire : "7d",
+  path : "/",
+  domain : "",
+  secure : true,
+  sameSite : "None"
+})
+
 
 
 app.component('pagination', Pagination);

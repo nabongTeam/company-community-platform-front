@@ -50,7 +50,6 @@ const actions = {
         
         
         console.log("user login")
-        console.log(response)
 
         //const { data } = response.data
         //console.log("data.token =======>" + response.data.token)
@@ -61,7 +60,8 @@ const actions = {
 
 
         if(state.token != undefined){
-          resolve()
+
+          resolve(location.href = "http://localhost:8080/")
         }
         else{
           alert("아이디 혹은 비밀번호가 틀립니다.")
@@ -82,6 +82,7 @@ const actions = {
         const data = {
           name : response.data.name,
           avatar :{
+
             authority : response.data.principal.authorities[0].authority,
             accountNonExpired : response.data.principal.accountNonExpired,
             accountNonLocked : response.data.principal.accountNonLocked,
@@ -98,7 +99,11 @@ const actions = {
         
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
-        console.log(data)
+
+        console.log(state.name)
+        console.log(state.token)
+        console.log(state.avatar)
+
         resolve(data)
       }).catch(error => {
         reject(error)
