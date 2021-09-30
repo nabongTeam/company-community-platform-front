@@ -9,7 +9,7 @@
 					</router-link>
 					</a>
 			</h1>
-			<div class="topLink"><a href="#" class="topLink"><router-link to="/user/Login"><span>로그인</span></router-link></a></div>
+			<div class="topLink"><a href="#" class="topLink"><router-link to="/user/Login"><span>{{loginInputText}}</span></router-link></a></div>
 			<div class="topNav">
 				<ul class="topNavList">
 					<li>
@@ -118,3 +118,24 @@
 	</header>
 	<!--// 헤더영역 -->
 </template>
+
+<script>
+import {VueCookieNext} from 'vue-cookie-next'
+
+
+export default {
+	name : "header",
+	data(){
+		return {
+			loginState : false,
+			loginInputText : "로그인"
+		}
+	},
+	mounted(){
+		if(VueCookieNext.getCookie('token') != undefined){
+			this.loginState = true
+			this.loginInputText = "로그아웃"
+		}
+	}
+}
+</script>

@@ -22,6 +22,7 @@
 import Headers from "@/views/include/head.vue";
 import Footers from "@/views/include/footer.vue";
 
+
 export default {
   name: "main",
   components: {
@@ -30,7 +31,6 @@ export default {
   },
   data() {
     return {
-      
     };
   },
   methods: {
