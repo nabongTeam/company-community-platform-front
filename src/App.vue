@@ -24,7 +24,6 @@ import Footers from "@/views/include/footer.vue";
 
 
 export default {
-  name: "main",
   components: {
     Headers,
     Footers

@@ -9,7 +9,18 @@
 					</router-link>
 					</a>
 			</h1>
-			<div class="topLink"><a href="#" class="topLink"><router-link to="/user/Login"><span>{{loginInputText}}</span></router-link></a></div>
+			<div class="topLink">
+				<a href="#" class="topLink">
+						<div v-if="loginState === false">
+							<router-link to="/user/Login">
+								<span>로그인</span>
+							</router-link>
+						</div>
+						<div v-else-if="loginState === true">
+							<span @click="Logout">로그아웃</span>
+						</div>
+				</a>
+			</div>
 			<div class="topNav">
 				<ul class="topNavList">
 					<li>
@@ -120,21 +131,33 @@
 </template>
 
 <script>
-import {VueCookieNext} from 'vue-cookie-next'
+import {VueCookieNext} from 'vue-cookie-next';
+import {mapActions} from 'vuex';
 
+const  userStore = 'userStore';
 
 export default {
-	name : "header",
 	data(){
 		return {
 			loginState : false,
-			loginInputText : "로그인"
 		}
 	},
 	mounted(){
 		if(VueCookieNext.getCookie('token') != undefined){
 			this.loginState = true
-			this.loginInputText = "로그아웃"
+		}
+		else{
+			this.loginState = false;
+		}
+	},
+	methods :{
+		...mapActions(userStore, ['logout']),
+		Logout(){
+			const al = alert('로그아웃 하시겠습니까')
+			if(al){
+				VueCookieNext.removeCookie('token')
+				this.logout();
+			}
 		}
 	}
 }

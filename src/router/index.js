@@ -32,6 +32,8 @@ import Login from '../views/user/Login.vue'
 import UserRegist from '../views/user/UserRegist.vue';
 /* 3-2. 기관등록 */
 import InsttRegist from '../views/user/InsttRegist.vue';
+/* 3-3 아이디 비번 찾기 */
+import searchUserInfo from '../views/user/searchUserInfo.vue'
 
 /* 4. 데이터관리 */
 /* 4-1. 수집현황 */
@@ -135,6 +137,13 @@ const routes = [{
     path: '/user/insttRegist',
     name: 'InsttRegist',
     component: InsttRegist,
+  },
+  /* 아이디 비번 찾기 */
+  {
+    path : '/user/searchUserInfo',
+    name : 'searchUserInfo',
+    component : searchUserInfo,
+
   },
   /* 4-1. 수집현황 */
   {

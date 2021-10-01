@@ -51,7 +51,7 @@ app.use(VueCookieNext,{
   expire : "7d",
   path : "/",
   domain : "",
-  secure : true,
+  secure : "",
   sameSite : "None"
 })
 

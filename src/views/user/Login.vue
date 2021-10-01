@@ -11,41 +11,48 @@
 		<!-- 컨텐츠영역 -->
 		<div id="Content">
 			<h2>
-				<span>회원 기능</span>
 				<span><b>로그인</b></span>
-			</h2>			
+			</h2>
+			<div class="login_box">
+				<div class="login_area_wrap">	
+					<div class="login_area">
+						<div class="login_inp id">
+							<label for="inp_id">아이디</label>
+							<span class="input_txt">
+								<input type="text" id="inp_id" class="ime_en" v-model="username">
+							</span>
+						</div>
 
-			<div class="ListTbWrap mt-20">
-				<table class="tList">
-					<caption>회원가입폼</caption>
-					<colgroup>
-						<col style="width:15%">
-						<col>					
-					</colgroup>
-					<tbody>
-					<tr>
-						<td class="PalignL">아이디</td>
-						<td class="PalignL">
-                            <input type="text" id="inp_id"  v-model="username" class="regi" placeholder="abc@abc.com" > 
-                         </td> 
-					</tr>
-                    <tr>
-						<td class="PalignL"> 비밀번호 </td>
-						<td class="PalignL">
-                            <input type="password" id="inp_pw" v-model="password" class="pw" >
-                        </td>
-					</tr>
-                    <tr>
-                        <td>  <button @click="doLogin">로그인</button>  </td>
-                        <td>  <button @click="getUserInfo">유저 정보 얻기</button>  </td>
-                    </tr>
-					</tbody>
-				</table>
+						<div class="login_inp">
+							<label for="inp_pw">패스워드</label>
+							<span class="input_txt">
+								<input type="password" id="inp_pw" v-model="password">
+							</span>
+						</div>
+											
+						<button @click="doLogin"  class="btn_orange login_btn">로그인</button> 
+									
+						<div class="btm_cont"> 
+								<div class="link_area">
+									<router-link to="searchUserInfo"> 
+										<a class="list_link">아이디/비번찾기</a>
+									</router-link>
+									<a href="" class="list_link">회원가입</a>
+								</div>
+						</div>
+
+					</div>
+				</div>				
 			</div>
-            
-		</div><!-- //Content -->        
+		</div><!-- //Content -->      
+
+
+
+
+
 	</div><!-- //contentWrap -->
 </template>
+
 <script>
 import {mapActions} from 'vuex'
 
