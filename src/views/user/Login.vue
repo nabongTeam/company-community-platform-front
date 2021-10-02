@@ -30,7 +30,7 @@
 							</span>
 						</div>
 											
-						<button @click="doLogin"  class="btn_orange login_btn">로그인</button> 
+						<a href="javascript:void(0)" @click="doLogin"  class="btn_orange login_btn">로그인</a> 
 									
 						<div class="btm_cont"> 
 								<div class="link_area">

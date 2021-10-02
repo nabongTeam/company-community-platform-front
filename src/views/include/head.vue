@@ -153,9 +153,8 @@ export default {
 	methods :{
 		...mapActions(userStore, ['logout']),
 		Logout(){
-			const al = alert('로그아웃 하시겠습니까')
-			if(al){
-				VueCookieNext.removeCookie('token')
+			const ok = confirm('로그아웃 하시겠습니까')
+			if(ok){
 				this.logout();
 			}
 		}

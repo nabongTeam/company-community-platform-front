@@ -118,7 +118,7 @@ const actions = {
         removeToken() // must remove  token  first
         resetRouter()
         commit('RESET_STATE')
-        resolve()
+        resolve(location.href="http://localhost:8080/")
       }).catch(error => {
         reject(error)
       })

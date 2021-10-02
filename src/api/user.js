@@ -10,22 +10,16 @@ export function login(params){
     });
 }
 
-export function logout(params){
+export function logout(token){
     return axios({
-        url : 'api/usre/logout',
+        url : 'http://localhost:8888/api/user/logout',
         method : 'post',
-        data : params
+        headers : {"Authorization" : "Bearer " + token},
+        data : token
     })
 }
 
-export function getInfo(params){
-    return axios({
-        url : 'http://localhost:8888/api/user/getInfo',
-        method : 'post',
-        headers : {'Content-Type' : 'application/json'},
-        data : params
-    })
-}
+
 
 /**
  * 아이디 비밀번호 찾기
