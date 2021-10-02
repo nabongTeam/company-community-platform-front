@@ -40,7 +40,7 @@
 				<a href="javascript:void(0)" @click="searchIdByUserInfo" class="btn03">아이디 찾기</a>
 				<a href="javascript:void(0)" @click="searchPwByUserInfo" class="btn04">비밀번호 찾기</a>
 			</div>
-			<div class="card3_popup" style="display: none; top:160px;">
+			<div class="card3_popup" v-bind:class="{'active': isActive, 'nonActive':nonActive}">
                 <div class="popup_header">아이디 찾기</div>
                 <div class="popup_body">
         
@@ -54,16 +54,17 @@
                     </div>
                 </div>
         
-                <button class="btn_m01 blue">확인</button>
+                <button class="btn_m01 blue" @click="closeBtn">확인</button>
         
-                <div class="popup_close">닫기</div>
+                <div class="popup_close" @click="closeBtn">닫기</div>
             </div>
 		</div><!-- //Content -->
 	</div><!-- //contentWrap -->
 </template>
 
 <script>
-import {searchId} from '../../api/user'
+import {searchId, searchPw} from '../../api/user';
+
 
 export default {
 	name : "searchIdOrPassword",
@@ -71,6 +72,8 @@ export default {
 		return{
 			nickname:"",
 			userEmail : "",
+			isActive : false,
+			nonActive : true
 		}
 	},
 	methods :{
@@ -81,11 +84,12 @@ export default {
 			}
 			searchId(userInfo).then(res => {
 				console.log(res)
-				if(res == 1){
-					console.log("정상적으로 전달됨")
+				if(res.data == true){
+					this.isActive = true;
+					this.nonActive = false;
 				}
 				else{
-					console.log("error")
+					alert("이름과 이메일을 다시 확인해주세요.")
 				}
 			})
 		},
@@ -94,8 +98,35 @@ export default {
 				nickname : this.nickname,
 				userEmail : this.userEmail
 			}
-			searchPw(userInfo)
+			searchPw(userInfo).then(res =>{
+				if(res.data == true){
+					this.isActive = true;
+					this.nonActive = false;
+				}
+				else{
+					alert("이름과 이메일을 다시 확인해주세요.")
+				}
+			})
+		},
+
+		closeBtn(){
+			this.isActive = false;
+			this.nonActive = true;
 		}
 	}
 }
 </script>
+
+<style>
+
+
+.active{
+	display: block; 
+	top:160px;
+}
+.nonActive{
+	display: none;
+	top:160px;
+}
+
+</style>

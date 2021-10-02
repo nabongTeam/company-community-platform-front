@@ -31,7 +31,6 @@ export function getInfo(params){
  * 아이디 비밀번호 찾기
  */
 export function searchId(params){
-    console.log(params)
 
     return axios({
         url : "http://localhost:8888/api/user/searchId",
@@ -45,7 +44,6 @@ export function searchPw(params){
     return axios({
         url : "http://localhost:8888/api/user/searchPw",
         method : 'post',
-        headers : {'Content-Type' : 'application/json'},
         data : params
     })
 }
