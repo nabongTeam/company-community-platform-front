@@ -75,7 +75,7 @@
 				</template>
 				<template v-else >
 					<a href="#" @click="goView" class="btn03">취소</a>
-					<a href="#" @click="getRegist" class="btn04">수정</a>	
+					<a href="#" @click="getUpdate" class="btn04">수정</a>	
 				</template>
 			</div>	
 
@@ -128,7 +128,7 @@
 </template>
 
 <script>
-import {  devGuideView, devGuideReg } from "@/api/supportApi";
+import {  devGuideView, devGuideReg, devGuideUpdate } from "@/api/supportApi";
 
 let insSn=0;
 let upSn=0;
@@ -160,18 +160,18 @@ export default {
         path: "/support/devGuideList"
       });
     },
-    /* 저장 or 수정 */
+    /* 저장 */
     getRegist() {
       //validate
-	  if(this.inputParam.dateType != 'insert'){
-		  	this.inputParam.devlopGuideSn =  this.$route.query.devlopGuideSn;
-	  }
-	  if(this.inputParam.devlopGuideSj == "" 
-	  || this.inputParam.devlopGuideVerValue == "" 
-	  || this.inputParam.devlopGuideCn == ""){
-		this.validModal = true;
-		return false;
-	  }
+	//   if(this.inputParam.dateType != 'insert'){
+	// 	  	this.inputParam.devlopGuideSn =  this.$route.query.devlopGuideSn;
+	//   }
+	//   if(this.inputParam.devlopGuideSj == "" 
+	//   || this.inputParam.devlopGuideVerValue == "" 
+	//   || this.inputParam.devlopGuideCn == ""){
+	// 	this.validModal = true;
+	// 	return false;
+	//   }
 	  devGuideReg(this.inputParam)
 		.then(response => {
 			console.log("code : ", response.data.code);
@@ -227,6 +227,37 @@ export default {
     //       console.log(error);
     //     });
     },
+
+	/* 수정 */
+	getUpdate(){
+		this.inputParam.devlopGuideSn =  this.$route.query.devlopGuideSn;
+
+		// if(this.inputParam.devlopGuideSj == "" 
+		// || this.inputParam.devlopGuideVerValue == "" 
+		// || this.inputParam.devlopGuideCn == ""){
+		// 	this.validModal = true;
+		// 	return false;
+		// }
+
+		devGuideUpdate(this.inputParam.devlopGuideSn,this.inputParam)
+		.then(response => {
+			console.log("code : ", response.data.code);
+			if (response.data.code == 200) {
+				insSn = response.data.NewDevlopGuideSn;
+				this.regModal=true;
+			} else {
+			alert("등록 실패하였습니다");
+			
+			}
+		})
+		.catch(error => {
+			console.log("error", error);
+			alert("등록 실패하였습니다");
+			alert(this.inputParam.devlopGuideSn);
+			alert(this.inputParam.devlopGuideSj);
+			alert(this.inputParam.devlopGuideVerValue);
+		});
+	},
 	/* 상세 조회 이동 */
 	goView(){
 		this.validModal = false;
@@ -242,9 +273,10 @@ export default {
 	},
     /* 상세 조회 */
     getView() {
-    	devGuideView({
-			devlopGuideSn: this.$route.query.devlopGuideSn
-			}).then(response => {
+    	devGuideView(
+			//devlopGuideSn: this.$route.query.devlopGuideSn
+			this.$route.query.devlopGuideSn
+			).then(response => {
                 if(response.status == 200){
                     console.log("response.data.devGuideVo", response.data.vo);
                     this.inputParam = response.data.vo;

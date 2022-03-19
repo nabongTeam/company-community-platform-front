@@ -7,7 +7,6 @@ import Home from '../views/Home.vue';
 /* 1. 이용가이드 */
 /* 1-1. 서비스소개 */
 import ServiceInfo from '../views/notice/ServiceInfo.vue';
-
 /* 1-2. 공지사항 */
 import NoticeList from '../views/notice/NoticeList.vue';
 import NoticeView from '../views/notice/NoticeView.vue';
@@ -20,16 +19,19 @@ import DevSupport from '../views/support/DevSupport.vue';
 import DevGuideRegist from '../views/support/DevGuideRegist.vue';
 import DevGuideList from '../views/support/DevGuideList.vue';
 import DevGuideView from '../views/support/DevGuideView.vue';
-
 /* 2-3. Q&A */
 import DevInquryList from '../views/support/DevInquryList.vue';
+import DevInquryView from '../views/support/DevInquryView.vue';
+import DevInquryRegist from '../views/support/DevInquryRegist.vue';
 
 /* 3. 이용신청 */
-
 /* 3-0 로그인 페이지 */
 import Login from '../views/user/Login.vue'
+
 /* 3-1. 회원가입 */
 import UserRegist from '../views/user/UserRegist.vue';
+/* 3-2. 기관등록 */
+import InsttRegist1 from '../views/manage/InsttRegist.vue';
 /* 3-2. 기관등록 */
 import InsttRegist from '../views/user/InsttRegist.vue';
 /* 3-3 아이디 비번 찾기 */
@@ -50,8 +52,6 @@ import UserInfoView from '../views/manage/UserInfoView.vue';
 import UserManageList from '../views/manage/UserManageList.vue';
 /* 5-3. 기관관리 */
 import InsttManageList from '../views/manage/InsttManageList.vue';
-
-
 
 
 const routes = [{
@@ -118,32 +118,46 @@ const routes = [{
     name: 'DevInquryList',
     component: DevInquryList,
   },
-
-  /* 3-0 로그인 페이지 */
   {
-    path : '/user/Login',
-    name : 'Login',
-    component : Login,
+    path: '/support/devInquryView',
+    name: 'DevInquryView',
+    component: DevInquryView,
   },
-
+  {
+    path: '/support/devInquryRegist',
+    name: 'DevInquryRegist',
+    component: DevInquryRegist,
+  },
+    /* 3-0 로그인 페이지 */
+    {
+      path : '/user/Login',
+      name : 'Login',
+      component : Login,
+    },
   /* 3-1. 회원가입 */
   {
     path: '/user/userRegist',
     name: 'UserRegist',
     component: UserRegist,
   },
+    /* 아이디 비번 찾기 */
+    {
+      path : '/user/searchUserInfo',
+      name : 'searchUserInfo',
+      component : searchUserInfo,
+  
+    },
   /* 3-2. 기관등록 */
+  {
+    path: '/manage/insttRegist',
+    name: 'InsttRegist1',
+    component: InsttRegist1,
+  },
+   /* 3-2. 기관등록 */
   {
     path: '/user/insttRegist',
     name: 'InsttRegist',
     component: InsttRegist,
-  },
-  /* 아이디 비번 찾기 */
-  {
-    path : '/user/searchUserInfo',
-    name : 'searchUserInfo',
-    component : searchUserInfo,
-
   },
   /* 4-1. 수집현황 */
   {
@@ -183,13 +197,14 @@ const routes = [{
   }
 ];
 
+export const resetRouter = () =>{
+
+}
+
+
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 });
-
-export const resetRouter = () =>{
-
-}
 
 export default router;

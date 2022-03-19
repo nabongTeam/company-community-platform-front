@@ -15,16 +15,18 @@
 				<span><b>기관관리</b></span>
 			</h2>
 			<div class="topSearch">
-				<select name="" class="tops_sel">
-					<option value="" selected>선택</option>
-					<option value=""></option>
+				<select name="" class="tops_sel" v-model="searchParams.srchType">
+					<option value="1">기관명</option>
+					<option value="2">유형코드</option>
+					<option value="3">대표전화</option>
+					<option value="4">주소</option>
 				</select>
-				<input type="text" name="" class="tops_inp" placeholder="검색어를 입력하세요">
-				<button type="button" onclick="" class="topBtnSearch">검색</button>
+				<input type="text" name="" class="tops_inp" placeholder="검색어를 입력하세요" v-model="searchParams.srchWord" @keyup.enter="searchList()">
+				<button type="button" onclick="" class="topBtnSearch" @click="searchList()">검색</button>
 			</div>
             <div class="tbHead">                
                 <div class="tbHeadR">
-                    <button type="button" onclick="" class="btn01">등록</button>
+                    <button type="button" onclick="" class="btn01" @click="goRegist()">등록</button>
                 </div>
             </div>       
 			<div class="ListTbWrap">
@@ -49,44 +51,90 @@
 					</tr>
 					</thead>
 					<tbody>
-					<tr>
-						<td colspan="10" class="noData">데이터가 존재하지 않습니다.</td>
-					</tr>
-					<tr>
-						<td>10</td>
-						<td>xxxxxx</td>
-						<td>001001</td>						
-						<td>010-1234-5678</td>
-                        <td class="alignL">서울시 강남구 서초동 xxx</td>
-                        <td>2021-10-10</td>                        
-					</tr>
+					<template v-if="this.total > 0">
+						<tr v-for="(list, index) in insttManageList" :key="list.insttSn">
+							<td>{{list.insttSn}}</td>
+							<td>{{list.insttNm}}</td>
+							<td>{{list.insttTyCode}}</td>						
+							<td>{{list.reprsntTelno}}</td>
+							<td class="alignL">{{list.insttAdres}}</td>
+							<td>{{list.creatDt}}</td>                        
+						</tr>
+					</template>
+					<template v-else>
+						<tr>
+							<td colspan="10" class="noData">데이터가 존재하지 않습니다.</td>
+						</tr>
+					</template>
                     </tbody>
                 </table>			
 				
-				<div class="tPages">
-					<ul>
-						<li class="prev02"><a href="#"><img src="images/btn_first.png"></a></li>
-						<li class="prev"><a href="#"><img src="images/btn_prev.png"></a></li>
-						<li class="active">1</li><li><a href="#">2</a></li>
-						<li><a href="#">3</a></li>
-						<li><a href="#">4</a></li>
-						<li><a href="#">5</a></li>
-						<li><a href="#">6</a></li>
-						<li><a href="#">7</a></li>
-						<li><a href="#">8</a></li>
-						<li><a href="#">9</a></li>
-						<li><a href="#">10</a></li>
-						<li class="next"><a href="#"><img src="images/btn_next.png"></a></li>
-						<li class="next02"><a href="#"><img src="images/btn_last.png"></a></li>
-					</ul>
-				</div>
+				<!-- 페이징 -->
+				<pagination
+					v-show="total > 0"
+					ref="pagination"
+					:total-count="total"
+					:row-count="this.searchParams.perPageNum"
+					:curr-page="this.searchParams.page"
+					@change-page="changePage"
+				/>
 			</div>		
 		</div><!-- //Content -->
 	</div><!-- //contentWrap -->
 </template>
 <script>
+import { insttManageList } from "@/api/insttApi";
+
 export default {
-    
+        data() {
+		return {
+			searchParams : {
+				srchWord : ""
+				, srchType : "1"
+				, page: 1
+        		, perPageNum: 10
+			},
+			insttManageList : [],
+			total : 0,
+		}
+	},
+	created() {
+		this.handleFilter();
+	},
+	methods: {
+	/* 기관관리 조회 */
+	searchList() {
+		insttManageList(this.searchParams)
+		.then(response => {
+			console.log("response.data.insttManageList", response.data);
+			this.insttManageList = response.data.insttManageList;
+			this.total = response.data.insttManageListCnt;
+			//this.total = response.data.totalCount;
+		});
+		//this.searchParams.searchStr = "";
+	},
+	handleFilter() {
+		this.searchParams.page = 1;
+		this.searchList(); // 목록 조회
+	},
+	/* 페이지당 갯수 변경 */
+	changeRowCount(perPageNum) {
+		this.searchParams.perPageNum = perPageNum;
+		this.changePage(1);
+	},
+	changePage(page) {
+		this.searchParams.page = page;
+		this.searchList(); // 목록 조회
+	},
+		goRegist() {
+			this.$router.push({
+				path: "/manage/insttRegist",
+				query:{
+                        status : 'C'
+                      }
+			});
+		},
+	},
 }
 </script>
 <style lang="">

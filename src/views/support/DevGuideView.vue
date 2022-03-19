@@ -133,9 +133,10 @@ export default {
 	methods: {
         /*상세 조회 */
 		getView() {
-			devGuideView({
-				devlopGuideSn: this.searchParam.devlopGuideSn
-			}).then(response => {
+			devGuideView(
+				//devlopGuideSn: this.searchParam.devlopGuideSn
+				this.searchParam.devlopGuideSn
+			).then(response => {
                 if(response.status == 200){
                     console.log("response.data.devGuideVo", response.data.vo);
                     this.devGuideVo = response.data.vo;
@@ -145,9 +146,10 @@ export default {
 		},
         /*개발자 가이드 삭제 */
         getDelete(){
-            devGuideDel({
-				devlopGuideSn: this.searchParam.devlopGuideSn
-			}).then(response => {
+            devGuideDel(
+				//devlopGuideSn: this.searchParam.devlopGuideSn
+				this.searchParam.devlopGuideSn
+			).then(response => {
                if (response.data.code == 200) {
                 	this.goList();
                 }

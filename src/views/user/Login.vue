@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex'
+import {mapActions, mapState} from 'vuex'
 
 const userStore = 'userStore';
 
@@ -66,6 +66,7 @@ export default {
 				password : ''
 		}
 	},
+	
 
 	methods :{
 		...mapActions(userStore, ['login', 'getInfo']),
@@ -76,11 +77,8 @@ export default {
 			}
 			this.login(userInfo)
 		},
-		getUserInfo(){
-			this.getInfo();
-		}
+		
 	}
-    
 }
 
 

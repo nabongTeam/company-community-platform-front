@@ -15,23 +15,22 @@
 				<span><b>Q&A</b></span>
 			</h2>
 			<div class="topSearch">
-				<select name="" class="tops_sel">
-					<option value="" selected>선택</option>
-					<option value="">제목</option>
-					<option value="">내용</option>
-					<option value="">등록자</option>
+				<select name="" class="tops_sel" v-model="searchParams.srchType">
+					<option value="1">제목</option>
+					<option value="2">내용</option>
+					<option value="3">등록자</option>
 				</select>
-				<input type="text" name="" class="tops_inp" placeholder="검색어를 입력하세요">
-				<button type="button" onclick="" class="topBtnSearch">검색</button>
+				<input type="text" name="" class="tops_inp" placeholder="검색어를 입력하세요" v-model="searchParams.srchWord" @keyup.enter="searchList()">
+				<button type="button" onclick="" class="topBtnSearch" @click="searchList()">검색</button>
 			</div>
 
 			<div class="ListTbWrap mt-20">
 				<div class="tbHead">
 					<div class="total">
-						총<span>16</span>건 게시글
+						총<span>{{total}}</span>건 게시글
 					</div>
 					<div class="tbHeadR">
-						<button type="button" onclick="" class="btn01">글쓰기</button>
+						<button type="button" onclick="" class="btn01" @click="goRegist()">글쓰기</button>
 					</div>
 				</div>
 
@@ -54,104 +53,39 @@
 					</tr>
 					</thead>
 					<tbody>
-					<tr>
-						<td colspan="5" class="noData">데이터가 존재하지 않습니다.</td>
-					</tr>
-					<tr>
-						<td>10</td>
-						<td class="alignL"><a href="#" class="ellipsis lock">문의합니다.</a></td>
-						<td>admin001</td>
-						<td>2021-09-03</td>
-						<td><label class="lb01">대기</label></td>
-					</tr>
-					<tr>
-						<td>9</td>
-						<td class="alignL"><a href="#" class="ellipsis">문의합니다.</a></td>
-						<td>admin001</td>
-						<td>2021-09-03</td>
-						<td><label class="lb01">대기</label></td>
-					</tr>
-					<tr>
-						<td>8</td>
-						<td class="alignL"><a href="#" class="ellipsis">문의합니다.</a></td>
-						<td>admin001</td>
-						<td>2021-09-03</td>
-						<td><label class="lb01">대기</label></td>
-					</tr>
-					<tr>
-						<td>7</td>
-						<td class="alignL"><a href="#" class="ellipsis">문의합니다.</a></td>
-						<td>admin001</td>
-						<td>2021-09-03</td>
-						<td><label class="lb01">대기</label></td>
-					</tr>
-					<tr>
-						<td>6</td>
-						<td class="alignL"><a href="#" class="ellipsis lock">문의합니다.</a></td>
-						<td>admin001</td>
-						<td>2021-09-03</td>
-						<td><label class="lb01">대기</label></td>
-					</tr>
-					<tr>
-						<td>5</td>
-						<td class="alignL"><a href="#" class="ellipsis lock">문의합니다.</a></td>
-						<td>admin001</td>
-						<td>2021-09-03</td>
-						<td><label class="lb02">완료</label></td>
-					</tr>
-					<tr>
-						<td>4</td>
-						<td class="alignL"><a href="#" class="ellipsis lock">문의합니다.</a></td>
-						<td>admin001</td>
-						<td>2021-09-03</td>
-						<td><label class="lb02">완료</label></td>
-					</tr>
-					<tr>
-						<td>3</td>
-						<td class="alignL"><a href="#" class="ellipsis lock">문의합니다.</a></td>
-						<td>admin001</td>
-						<td>2021-09-03</td>
-						<td><label class="lb02">완료</label></td>
-					</tr>
-					<tr>
-						<td>2</td>
-						<td class="alignL"><a href="#" class="ellipsis lock">문의합니다.</a></td>
-						<td>admin001</td>
-						<td>2021-09-03</td>
-						<td><label class="lb02">완료</label></td>
-					</tr>
-					<tr>
-						<td>1</td>
-						<td class="alignL"><a href="#" class="ellipsis lock">문의합니다.</a></td>
-						<td>admin001</td>
-						<td>2021-09-03</td>
-						<td><label class="lb02">완료</label></td>
-					</tr>
+					<template v-if="this.total > 0">
+						<tr v-for="(list) in devInquryList" :key="list.inqrySn">
+							<td>{{list.inqryIndex}}</td>
+							<td class="alignL"><a href="#" :class="{'ellipsis' : list.secretAt=='N', 'ellipsis lock' : list.secretAt=='Y'}" @click="goView(list.inqrySn)">{{list.inqrySj}}</a></td>
+							<td>{{list.userId}}</td>						
+							<td>{{list.creatDt}}</td>
+							<td>
+								<label class="lb01" v-if="list.answerAt=='N'">대기</label>
+								<label class="lb01" v-else-if="list.answerAt!='N'">완료</label>
+							</td>                       
+						</tr>
+					</template>
+					<template v-else>
+						<tr>
+							<td colspan="5" class="noData">데이터가 존재하지 않습니다.</td>
+						</tr>
+					</template>
 					</tbody>
 				</table>
 				
-				
-				<div class="tPages">
-					<ul>
-						<li class="prev02"><a href="#"><img src="images/btn_first.png"></a></li>
-						<li class="prev"><a href="#"><img src="images/btn_prev.png"></a></li>
-						<li class="active">1</li><li><a href="#">2</a></li>
-						<li><a href="#">3</a></li>
-						<li><a href="#">4</a></li>
-						<li><a href="#">5</a></li>
-						<li><a href="#">6</a></li>
-						<li><a href="#">7</a></li>
-						<li><a href="#">8</a></li>
-						<li><a href="#">9</a></li>
-						<li><a href="#">10</a></li>
-						<li class="next"><a href="#"><img src="images/btn_next.png"></a></li>
-						<li class="next02"><a href="#"><img src="images/btn_last.png"></a></li>
-					</ul>
-				</div>
+				<!-- 페이징 -->
+				<pagination
+					v-show="total > 0"
+					ref="pagination"
+					:total-count="total"
+					:row-count="this.searchParams.perPageNum"
+					:curr-page="this.searchParams.page"
+					@change-page="changePage"
+				/>
 			</div>
 
 			<!-- 팝업-->
-			<div class="card3_popup" style="display: block; top:160px;">
+			<div class="card3_popup" style="display: block; top:160px;" v-show="this.viewDeletePopup">
 				<div class="popup_body">        
 					<!-- 메시지 -->
 					<div class="card_mody mt-20">
@@ -159,14 +93,14 @@
 					</div>
 				</div>
 				<div class="btn_wrap_pop">
-					<button class="btn_m01 blue">확인</button>
+					<button class="btn_m01 blue" @click="this.viewDeletePopup = false">확인</button>
 				</div>
-				<div class="popup_close">닫기</div>
+				<div class="popup_close" @click="this.viewDeletePopup = false">닫기</div>
 			</div>
 			<!-- 팝업 끝-->
 
 			<!-- 팝업-->
-			<div class="card3_popup" style="display: block; top:160px;">
+			<div class="card3_popup" style="display: block; top:160px;" v-show="this.loginDeletePopup">
 				<div class="popup_body">        
 					<!-- 메시지 -->
 					<div class="card_mody mt-20">
@@ -174,10 +108,10 @@
 					</div>
 				</div>
 				<div class="btn_wrap_pop">
-					<button class="btn_m01_50">확인</button>
-					<button class="btn_m02_50">취소</button>
+					<button class="btn_m01_50" @click="this.loginDeletePopup = false">확인</button>
+					<button class="btn_m02_50" @click="this.loginDeletePopup = false">취소</button>
 				</div>
-				<div class="popup_close">닫기</div>
+				<div class="popup_close" @click="this.loginDeletePopup = false">닫기</div>
 			</div>
 			<!-- 팝업 끝-->
 			
@@ -185,8 +119,80 @@
 	</div><!-- //contentWrap -->
 </template>
 <script>
+import {devInquryList} from "@/api/devInquryApi";
+import axios from 'axios';
 export default {
-    
+    data(){
+		return {
+				searchParams : {
+					srchWord : ""
+					, srchType : "1"
+					, page: 1
+					, perPageNum: 10
+				},
+				devInquryList : [],
+				total : 0,
+				loginDeletePopup:false, viewDeletePopup:false}
+
+	},
+	created() {
+		this.handleFilter();
+	},
+	methods:{
+		searchList() {
+			devInquryList(this.searchParams)
+			.then(response => {
+				console.log("response.data.devInquryList", response.data);
+				this.devInquryList = response.data.devInquryList;
+				this.total = response.data.devInquryListCnt;
+			});
+
+		// 	axios.get('/api/support/devInquryList',{
+		// 		//
+		// 		//	, 
+		// 			 params:{ //srchWord : this.searchParams.srchWord,
+		// 			// srchType : this.searchParams.srchType,
+		// 			page: this.searchParams.page
+		// 			, perPageNum: this.searchParams.perPageNum
+		// 			}
+		// 	}).then(response => { 
+   		//      console.log(response.data);
+		// 		console.log(response.searchParams);	
+		// 		this.devInquryList = response.data.devInquryList;
+		// 		this.total = response.data.devInquryListCnt;
+   		//    });
+		},
+		handleFilter() {
+			this.searchParams.page = 1;
+			this.searchList(); // 목록 조회
+		},
+		/* 페이지당 갯수 변경 */
+		changeRowCount(perPageNum) {
+			this.searchParams.perPageNum = perPageNum;
+			this.changePage(1);
+		},
+		changePage(page) {
+			this.searchParams.page = page;
+			this.searchList(); // 목록 조회
+		},
+		goView(inqrySn) {
+			this.$router.push({
+				path: "/support/devInquryView",
+				query:{
+                        inqrySn : inqrySn,
+                      }
+			});
+		},
+		goRegist() {
+			this.$router.push({
+				path: "/support/devInquryRegist",
+				query:{
+                        status : 'C',
+						noticeSn : 0
+                      }
+			});
+		}
+	}
 }
 </script>
 <style lang="">
